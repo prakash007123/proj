@@ -1,0 +1,23 @@
+name: Commit Message Check
+
+on:
+  push:
+    branches:
+      - main
+      - master # Replace with your branch name
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check commit messages
+        run: |
+          if ! git log --format=%s -n 1 | grep -qE 'AB#'; then
+            echo "Error: Commit message must contain 'AB#'"
+            exit 1
+          else
+            echo "Commit message is valid"
+          fi
